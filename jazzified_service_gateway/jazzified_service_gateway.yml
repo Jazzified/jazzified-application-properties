@@ -13,10 +13,10 @@ spring:
     gateway:
       routes:
         - id: spotifySearchModule
-          uri: lb://api/**/jazzified/spotify/**
+          uri: lb:spotify_service
           predicates:
-            - Path=/spotify-service/**
+            - Path=/api/**/jazzified/spotify/**
         - id: artistCreateModule
-          uri: lb://api/**/jazzified/artist/**
+          uri: lb:artist_persistence_service
           predicates:
-            - Path=/artist-persist/**
+            - Path=/api/**/jazzified/artist/**
