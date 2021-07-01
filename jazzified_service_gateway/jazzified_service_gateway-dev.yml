@@ -15,8 +15,8 @@ spring:
                 - id: spotifySearchModule
                   uri: lb://SPOTIFY_SERVICE
                   predicates:
-                      - Path=/api/v1/jazzified/spotify/**
+                      - Path=/spotify-service/**
                 - id: artistCreateModule
                   uri: lb://ARTIST_PERSISTENCE_SERVICE
                   predicates:
-                      - Path=/api/v1/artist/**
+                      - Path=/artist-persist/**

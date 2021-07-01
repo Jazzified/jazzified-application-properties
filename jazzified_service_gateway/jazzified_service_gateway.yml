@@ -1,22 +1,22 @@
 eureka:
-    client:
-        fetch-registry: true
-        register-with-eureka: true
-        service-url:
-            defaultZone: 'http://localhost:8761/eureka/ '
-    instance:
-        prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: 'http://localhost:8761/eureka/ '
+  instance:
+    prefer-ip-address: true
 server:
-    port: 8093
+  port: 8093
 spring:
-    cloud:
-        gateway:
-            routes:
-                - id: spotifySearchModule
-                  uri: lb://SPOTIFY_SERVICE
-                  predicates:
-                      - Path=/api/v1/jazzified/spotify/**
-                - id: artistCreateModule
-                  uri: lb://ARTIST_PERSISTENCE_SERVICE
-                  predicates:
-                      - Path=/api/v1/artist/**
+  cloud:
+    gateway:
+      routes:
+        - id: spotifySearchModule
+          uri: lb://SPOTIFY_SERVICE
+          predicates:
+            - Path=/spotify-service/**
+        - id: artistCreateModule
+          uri: lb://ARTIST_PERSISTENCE_SERVICE
+          predicates:
+            - Path=/artist-persist/**
