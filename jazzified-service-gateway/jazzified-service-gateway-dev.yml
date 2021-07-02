@@ -13,10 +13,18 @@ spring:
     gateway:
       routes:
         - id: spotifySearchModule
-          uri: lb://spotify_service
+          uri: lb://spotify-service
           predicates:
             - Path=/api/v1/jazzified/spotify/**
         - id: artistCreateModule
-          uri: lb://artist_persistence_service
+          uri: lb://artist-persistence-service
           predicates:
             - Path=/api/v1/jazzified/artist/**
+      eureka:
+        client:
+          fetch-registry: true
+          register-with-eureka: true
+          service-url:
+            defaultZone: 'http://localhost:8761/eureka/ '
+        instance:
+          prefer-ip-address: true
