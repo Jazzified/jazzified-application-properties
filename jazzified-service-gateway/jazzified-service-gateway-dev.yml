@@ -6,15 +6,23 @@ eureka:
       defaultZone: 'http://localhost:8761/eureka/ '
   instance:
     prefer-ip-address: true
+    
+    
 server:
   port: 8093
+  
+  
+  
 spring:
   cloud:
     gateway:
 # AUTOMATED MAPPING OF ROUTES: Automatically
-      discovery.locator:
-        enabled: true
-        lowerCaseServiceId: true
+      cloud:
+      gateway:
+          discovery:
+              locator:
+                  enabled: true
+                  lower-case-service-id: true
 # MANUAL MAPPING OF ROUTES
 #      routes:
 #        - id: spotifySearchModule
@@ -25,14 +33,11 @@ spring:
 #          uri: lb://artist-persistence-service
 #          predicates:
 #            - Path=/api/v1/jazzified/artist/**
-      eureka:
-        client:
-          fetch-registry: true
-          register-with-eureka: true
-          service-url:
-            defaultZone: 'http://localhost:8761/eureka/ '
-        instance:
-          prefer-ip-address: true
-
-
-#
+     
+     
+    
+     
+logging:
+    level:
+        org.springframework.web: WARN
+        dev.tobiadegbuji: DEBUG
