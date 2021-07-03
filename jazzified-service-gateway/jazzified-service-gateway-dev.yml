@@ -11,15 +11,20 @@ server:
 spring:
   cloud:
     gateway:
-      routes:
-        - id: spotifySearchModule
-          uri: lb://spotify-service
-          predicates:
-            - Path=/api/v1/jazzified/spotify/**
-        - id: artistCreateModule
-          uri: lb://artist-persistence-service
-          predicates:
-            - Path=/api/v1/jazzified/artist/**
+# AUTOMATED MAPPING OF ROUTES: Automatically
+      discovery.locator:
+        enabled: true
+        lowerCaseServiceId: true
+# MANUAL MAPPING OF ROUTES
+#      routes:
+#        - id: spotifySearchModule
+#          uri: lb://spotify-service
+#          predicates:
+#            - Path=/api/v1/jazzified/spotify/**
+#        - id: artistCreateModule
+#          uri: lb://artist-persistence-service
+#          predicates:
+#            - Path=/api/v1/jazzified/artist/**
       eureka:
         client:
           fetch-registry: true
@@ -28,3 +33,6 @@ spring:
             defaultZone: 'http://localhost:8761/eureka/ '
         instance:
           prefer-ip-address: true
+
+
+#
