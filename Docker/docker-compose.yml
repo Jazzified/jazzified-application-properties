@@ -1,61 +1,43 @@
 version: '3.7'
 
 services:
+
   configserver:
-    image: jazzified/jazzified-confsvr:0.0.1-SNAPSHOT
+    image: confsvr
     ports:
       - "8888:8888"
-#    networks:
-#      backend:
-#        aliases:
-#          - "configserver"
+    networks:
+      - jazzified
+
   eurekaserver:
-    image: jazzified/jazzified-eureka-server:0.0.1-SNAPSHOT
+    image: eureka
     ports:
       - "8761:8761"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=dev"
     depends_on:
-      configserver:
-        condition: service_started
-#    networks:
-#      backend:
-#        aliases:
-#          - "eurekaserver"
-  servicegateway:
-    image: jazzified/jazzified-service-gateway:0.0.1-SNAPSHOT
-    ports:
-      - "8093:8093"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=dev"
-    depends_on:
-      configserver:
-        condition: service_started
-      eurekaserver:
-        condition: service_started
-#    networks:
-#      backend:
-#        aliases:
-#          - "servicegateway"
+      - configserver
+    networks:
+      - jazzified
+
   spotifyservice:
-    image: jazzified/spotify-service:0.0.1-SNAPSHOT
+    image: spotify
     ports:
       - "8091:8091"
-    environment:
-      PROFILE: "dev"
-      CONFIGSERVER_URI: "http://configserver:8888"
-      CONFIGSERVER_PORT: "8888"
-      ENCRYPT_KEY: "IMSYMMETRIC"
     depends_on:
-      configserver:
-        condition: service_started
-      eurekaserver:
-        condition: service_started
-#    networks:
-#      backend:
-#        aliases:
-#          - "spotifyservice"
+      - configserver
+      - eurekaserver
+    networks:
+      - jazzified
 
-#networks:
-#  backend:
-#    driver: bridge
+  artistservice:
+    image: artist-persistence
+    ports:
+      - "8092:8092"
+    depends_on:
+      - configserver
+      - eurekaserver
+      - spotifyservice
+    networks:
+      - jazzified
+
+networks:
+  jazzified:
