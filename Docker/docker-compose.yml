@@ -3,10 +3,12 @@ version: '3.7'
 services:
 
   artistdatabase:
-    image: mysql:latest
-    restart: on-failure
+    image: mysql:8
     ports:
       - "3307:3307"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=jazzified
     networks:
       - jazzified
 
