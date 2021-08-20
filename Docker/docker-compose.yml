@@ -2,10 +2,18 @@ version: '3.7'
 
 services:
 
+  artistdatabase:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    networks:
+      - jazzified
+
   configserver:
     image: confsvr
     ports:
       - "8888:8888"
+    restart: on-failure
     networks:
       - jazzified
 
@@ -13,8 +21,10 @@ services:
     image: eureka
     ports:
       - "8761:8761"
+    restart: on-failure
     depends_on:
-      - configserver
+      configserver:
+        condition: service_started
     networks:
       - jazzified
 
@@ -22,9 +32,12 @@ services:
     image: spotify
     ports:
       - "8091:8091"
+    restart: on-failure
     depends_on:
-      - configserver
-      - eurekaserver
+      configserver:
+        condition: service_started
+      eurekaserver:
+        condition: service_started
     networks:
       - jazzified
 
@@ -32,10 +45,14 @@ services:
     image: artist-persistence
     ports:
       - "8092:8092"
+    restart: on-failure
     depends_on:
-      - configserver
-      - eurekaserver
-      - spotifyservice
+      configserver:
+        condition: service_started
+      eurekaserver:
+        condition: service_started
+      spotifyservice:
+        condition: service_started
     networks:
       - jazzified
 
