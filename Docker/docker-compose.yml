@@ -4,8 +4,9 @@ services:
 
   artistdatabase:
     image: mysql:latest
+    restart: on-failure
     ports:
-      - "3306:3306"
+      - "3307:3307"
     networks:
       - jazzified
 
@@ -52,6 +53,8 @@ services:
       eurekaserver:
         condition: service_started
       spotifyservice:
+        condition: service_started
+      artistdatabase:
         condition: service_started
     networks:
       - jazzified
