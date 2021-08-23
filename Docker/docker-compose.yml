@@ -45,10 +45,10 @@ services:
       - jazzified
 
   artistservice:
-    image: artist-persistence
+    image: artist
     ports:
       - "8092:8092"
-    restart: on-failure
+    restart: always
     depends_on:
       configserver:
         condition: service_started
